@@ -1,0 +1,19 @@
+.content-container {
+	padding: 15px 15px 1px;
+	max-width: 700px;
+	margin: 0 auto;
+	
+	ul {
+		margin: 0 0 2.5rem;
+		li {
+			margin: 0 0 1rem;
+			padding: 0 0 0 2.5rem;
+			position: relative;
+			&:before {
+				content: '\2022';
+				position: absolute;
+				left: 1.2rem;
+			}
+		}
+	}
+}
