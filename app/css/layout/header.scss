@@ -4,6 +4,11 @@ header {
 	nav {
 		height: 0;
 		overflow: hidden;
+		transition: all .2s ease-out;
+
+		&.is-open {
+			height: auto;
+		}
 	}
 	.menuBar {
 		position: fixed;
@@ -27,6 +32,10 @@ header {
 		}
 		&.is-open {
 			transform: rotate(90deg);
+		}
+		&:hover {
+			background: rgba($black, 1);
+			cursor: pointer;
 		}
 	}
 }

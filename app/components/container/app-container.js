@@ -5,6 +5,31 @@ export class AppContainer extends React.Component {
 
 	constructor(props){
 		super(props);
+
+		this.handleMenuToggle = this.handleMenuToggle.bind(this);
+
+		this.state = {
+			mobileMenuOpened: false
+		}
+	}
+
+	handleMenuToggle(command) {
+		let menuCommand = !this.state.mobileMenuOpened;
+
+		switch(command){
+			case 'close-menu':
+				menuCommand = false;
+				break;
+			case 'open-menu':
+				menuCommand = true;
+				break;
+			default:
+				menuCommand: !this.state.mobileMenuOpened;
+		}
+
+		this.setState({
+			mobileMenuOpened: menuCommand
+		});
 	}
 
 	render() {
@@ -16,7 +41,8 @@ export class AppContainer extends React.Component {
 					<li key={i}>
 						<Link 
 							className={(currentPath === route.path) ? 'on' : null} 
-							to={route.path}>
+							to={route.path}
+							onClick={this.handleMenuToggle.bind(this, 'close-menu')}>
 							{route.menuName}
 						</Link>
 					</li>);
@@ -26,7 +52,7 @@ export class AppContainer extends React.Component {
 		return (
 			<div>
 				<header>
-					<div className="menuBar">
+					<div className={'menuBar ' + ((this.state.mobileMenuOpened) ? 'is-open' : '')} onClick={this.handleMenuToggle}>
 						<span></span>
 						<span></span>
 						<span></span>
@@ -37,7 +63,7 @@ export class AppContainer extends React.Component {
 					<div className="title">
 						Web Developer
 					</div>
-					<nav>
+					<nav className={(this.state.mobileMenuOpened) ? 'is-open' : null}>
 						<ul>
 							{menu}
 						</ul>
