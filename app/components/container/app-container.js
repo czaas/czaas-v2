@@ -26,6 +26,11 @@ export class AppContainer extends React.Component {
 		return (
 			<div>
 				<header>
+					<div className="menuBar">
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
 					<div className="name">
 						Cameron Zaas
 					</div>
