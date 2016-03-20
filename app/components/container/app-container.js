@@ -50,7 +50,12 @@ export class AppContainer extends React.Component {
 		});
 
 		return (
-			<div>
+			<div className={'body-wrapper ' + ((this.state.mobileMenuOpened) ? 'is-open' : '')}>
+				<nav className={'mobile-slideout-menu ' + ((this.state.mobileMenuOpened) ? 'is-open' : '')}>
+					<ul>
+						{menu}
+					</ul>
+				</nav>
 				<header>
 					<div className={'menuBar ' + ((this.state.mobileMenuOpened) ? 'is-open' : '')} onClick={this.handleMenuToggle}>
 						<span></span>
@@ -63,7 +68,7 @@ export class AppContainer extends React.Component {
 					<div className="title">
 						Web Developer
 					</div>
-					<nav className={(this.state.mobileMenuOpened) ? 'is-open' : null}>
+					<nav className='desktop-menu'>
 						<ul>
 							{menu}
 						</ul>
