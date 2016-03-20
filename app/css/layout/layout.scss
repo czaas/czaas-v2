@@ -1,0 +1,24 @@
+.body-wrapper  {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column; // main-axis is top to bottom
+
+	@media screen and (min-width: $mobileBreak) {
+		flex-direction: row; // main-axis is now left to right
+
+		header, .content-container {
+			flex-basis: 240px;
+		}
+	}
+	header {
+		@media screen and (min-width: $mobileBreak) {
+			flex-grow: 1;
+		}		
+	}
+	.content-container {
+		flex-grow: 1;
+		@media screen and (min-width: $mobileBreak) {
+			flex-grow: 10;
+		}		
+	}
+}

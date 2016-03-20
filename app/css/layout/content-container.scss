@@ -1,7 +1,13 @@
 .content-container {
-	padding: 15px 15px 1px;
-	max-width: 700px;
-	margin: 0 auto;
+	background: $gray;
+}
+.content-inner {
+	padding: 15px;
+	max-width: 750px;
+	@media screen and (min-width: $mobileBreak) {
+		padding: 25px;
+		margin: 0 10%;
+	}
 	
 	ul {
 		margin: 0 0 2.5rem;

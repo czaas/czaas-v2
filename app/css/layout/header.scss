@@ -1,9 +1,12 @@
 header {
 	padding: 1rem 1.5rem;
+	min-height: 7rem;
+	background: lighten($black, 15%);
+	color: #fff;
 
 	nav {
 		display: none;
-		@media screen and (min-width: 769px) {
+		@media screen and (min-width: $mobileBreak) {
 			display: block;
 		}
 	}
@@ -35,7 +38,7 @@ header {
 			cursor: pointer;
 		}
 
-		@media screen and (min-width: 769px) {
+		@media screen and (min-width: $mobileBreak) {
 			display: none;
 		}
 	}

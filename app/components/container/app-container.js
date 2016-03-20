@@ -75,7 +75,9 @@ export class AppContainer extends React.Component {
 					</nav>
 				</header>
 				<div className="content-container">
-					{this.props.children}
+					<div className='content-inner'>
+						{this.props.children}
+					</div>
 				</div>
 			</div>
 		);

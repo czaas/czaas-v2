@@ -3,7 +3,7 @@
 }
 
 .mobile-slideout-menu {
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	height: 100%;
 	left: -100%;
@@ -13,7 +13,7 @@
 
 	&.is-open {
 		left: -20%;
-		@media screen and (min-width: 769px) {
+		@media screen and (min-width: $mobileBreak) {
 			left: -100%;
 		}
 	}
