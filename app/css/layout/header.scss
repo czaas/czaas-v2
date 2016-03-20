@@ -1,20 +1,51 @@
 header {
 	padding: 1rem 1.5rem;
 	min-height: 7rem;
-	background: lighten($black, 15%);
+	background: lighten($black, 2%);
 	color: #fff;
+
+	@media screen and (min-width: $mobileBreak) {
+		padding: 2.5rem 0;
+
+		display: flex;
+		flex-direction: column;
+
+		.name, .title {
+			padding: 0 4rem;
+		}
+		.name {
+			font-size: 2.7rem;
+		}
+	}
+
+	.name, .title {
+		@extend .font-header;
+
+		&.name {
+			font-size: 2.5rem;
+		}
+		&.title {
+			color: darken(#fff, 10%);
+
+			@media screen and (min-width: $mobileBreak) {
+				margin: 0 0 15px;
+			}
+		}
+	}
 
 	nav {
 		display: none;
 		@media screen and (min-width: $mobileBreak) {
 			display: block;
+			flex-grow: 1;
+			background: $gray-dark;
 		}
 	}
 	.menuBar {
 		position: fixed;
 		top: 10px;
 		right: 10px;
-		background: rgba($black, .7);
+		background: lighten($black, 15%);
 		border-radius: 50%;
 		width: 50px;
 		height: 50px;
@@ -34,12 +65,36 @@ header {
 			transform: rotate(90deg);
 		}
 		&:hover {
-			background: rgba($black, 1);
+			background: lighten($black, 25%);
 			cursor: pointer;
 		}
 
 		@media screen and (min-width: $mobileBreak) {
 			display: none;
+		}
+	}
+}
+
+// Target both the mobile menu and desktop menu
+nav {
+	li {
+		text-align: center;
+
+		a {
+			display: block;
+			@extend .font-main;
+			text-decoration: none;
+			color: $gray;
+			font-size: 1.8rem;
+			padding: 20px 0;
+			border-bottom: 1px solid darken($link, 10%);
+
+			&:first-child {
+				border-top: 1px solid darken($link, 10%);
+			}
+			&.on, &:hover {
+				background: lighten($gray-dark, 10%);
+			}
 		}
 	}
 }

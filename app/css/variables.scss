@@ -1,7 +1,17 @@
 $black: #222;
 $gray: #eee;
+$gray-dark: #404040;
 
 $link: #285287;
 $link-hover: lighten(#285287, 25%);
 
 $mobileBreak: 769px;
+
+.font-main {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+}
+.font-header {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+}

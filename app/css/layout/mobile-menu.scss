@@ -8,9 +8,9 @@
 	height: 100%;
 	left: -100%;
 	padding-left: 20%;
-	background: rgba($black, 20%);
+	background: #404040;
 	transition: all .3s ease-out;
-
+	z-index: 9999;
 	&.is-open {
 		left: -20%;
 		@media screen and (min-width: $mobileBreak) {
