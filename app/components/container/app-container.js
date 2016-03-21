@@ -9,8 +9,15 @@ export class AppContainer extends React.Component {
 		this.handleMenuToggle = this.handleMenuToggle.bind(this);
 
 		this.state = {
-			mobileMenuOpened: false
+			mobileMenuOpened: false,
+			isWindowLoaded: false
 		}
+	}
+
+	componentDidMount() {
+		this.setState({
+			isWindowLoaded: true
+		});
 	}
 
 	handleMenuToggle(command) {
@@ -49,8 +56,12 @@ export class AppContainer extends React.Component {
 			}
 		});
 
+		let test = {
+			visible: (this.state.isWindowLoaded) ? 'visible' : 'hidden'
+		};
+
 		return (
-			<div className={'body-wrapper ' + ((this.state.mobileMenuOpened) ? 'is-open' : '')}>
+			<div className={'body-wrapper ' + ((this.state.mobileMenuOpened) ? 'is-open' : '')} style={test}>
 				<nav className={'mobile-slideout-menu ' + ((this.state.mobileMenuOpened) ? 'is-open' : '')}>
 					<ul>
 						{menu}

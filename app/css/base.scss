@@ -20,7 +20,7 @@ h1, h2, h3, p {
 }
 
 .wf-loading {
-	h1, h2, h3, p {
+	h1, h2, h3, p, ul {
 		visibility: hidden;
 	}
 }
@@ -42,6 +42,10 @@ p {
 	@media screen and (min-width: $mobileBreak) {
 		font-size: 1.8rem
 	}
+}
+
+ul {
+	@extend .font-main;
 }
 
 a {

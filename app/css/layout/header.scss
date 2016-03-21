@@ -1,3 +1,9 @@
+.wf-loading {
+	.name, .title {
+		visibilitiy: hidden;
+	}
+}
+
 header {
 	padding: 1rem 1.5rem;
 	min-height: 7rem;
@@ -5,27 +11,24 @@ header {
 	color: #fff;
 
 	@media screen and (min-width: $mobileBreak) {
-		padding: 2.5rem 0;
+		padding: 2.5rem 0 0;
 
 		display: flex;
 		flex-direction: column;
-
+		
 		.name, .title {
 			padding: 0 4rem;
 		}
-		.name {
-			font-size: 2.7rem;
-		}
 	}
-
 	.name, .title {
 		@extend .font-header;
 
 		&.name {
-			font-size: 2.5rem;
+			font-size: 2.8rem;
 		}
 		&.title {
 			color: darken(#fff, 10%);
+			text-transform: uppercase;
 
 			@media screen and (min-width: $mobileBreak) {
 				margin: 0 0 15px;
@@ -38,12 +41,12 @@ header {
 		@media screen and (min-width: $mobileBreak) {
 			display: block;
 			flex-grow: 1;
-			background: $gray-dark;
+			background: #4e4e4e;
 		}
 	}
 	.menuBar {
 		position: fixed;
-		top: 10px;
+		top: 18px;
 		right: 10px;
 		background: lighten($black, 15%);
 		border-radius: 50%;
@@ -55,7 +58,7 @@ header {
 		transition: all .2s ease-out;
 		span {
 			display: block;
-			width: 70%;
+			width: 60%;
 			height: 4px;
 			background: #fff;
 			margin: 0 auto 5px;
@@ -84,16 +87,34 @@ nav {
 			display: block;
 			@extend .font-main;
 			text-decoration: none;
-			color: $gray;
+			color: #fff;
 			font-size: 1.8rem;
 			padding: 20px 0;
-			border-bottom: 1px solid darken($link, 10%);
+			transition: all .1s ease-out;
+			border-bottom: 1px solid #676767;
 
-			&:first-child {
-				border-top: 1px solid darken($link, 10%);
+			&.on {
+				position: relative;
+				background: #333;
+
+				&:after {
+					content: '';
+					position: absolute;
+					right: 0;
+					top: 0;
+					height: 100%;
+					width: 10px;
+					background: $link;
+				}
 			}
-			&.on, &:hover {
-				background: lighten($gray-dark, 10%);
+			&:hover {
+				background: #333;
+				color: #fff;
+			}
+		}
+		&:first-child {
+			a {
+				border-top: 1px solid #676767;
 			}
 		}
 	}
