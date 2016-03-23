@@ -27,7 +27,7 @@ header {
 			font-size: 2.8rem;
 		}
 		&.title {
-			color: darken(#fff, 10%);
+			color: $link;
 			text-transform: uppercase;
 
 			@media screen and (min-width: $mobileBreak) {
