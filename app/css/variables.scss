@@ -7,6 +7,13 @@ $link-hover: lighten(#285287, 25%);
 
 $mobileBreak: 769px;
 
+.wf-loading {
+	.font-main, 
+	.font-header {
+		visibility: hidden;
+	}
+}
+
 .font-main {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 400;

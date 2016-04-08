@@ -31,6 +31,11 @@ gulp.task('sass', function(){
 		.pipe(gulp.dest((isProduction) ? './dist/dist' : './dist'));
 });
 
+gulp.task('copy-views', function(){
+	return gulp.src('./app/views/*.ejs')
+		.pipe(gulp.dest('dist/app/views'))
+});
+
 gulp.task('sass:watch', function(){
 	gulp.watch('./app/css/**/*.scss', ['sass']);
 });

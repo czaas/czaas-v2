@@ -5,10 +5,13 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node server.js",
+    "start": "node dist/server.js",
+    "start-dev": "babel-node server.js",
     "build-server": "gulp build-server && gulp build-app-for-server",
-    "build-css": "gulp sass",
-    "build-all": "npm run build-server && npm run build-css --production"
+    "build-ejs-views": "gulp copy-views",
+    "build-css-dev": "gulp sass",
+    "build-css": "gulp sass --production",
+    "build-all": "npm run build-server && npm run build-css && npm run build-ejs-views"
   },
   "author": "",
   "license": "ISC",
