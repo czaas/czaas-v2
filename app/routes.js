@@ -4,6 +4,8 @@ import { AboutPage } from './components/pages/about-page.js';
 import { ContactPage } from './components/pages/contact-page.js';
 import { NotFound } from './components/pages/not-found.js';
 
+import getPages from './wp-api/get-pages.js';
+
 export const routes = {
 	path: '',
 	component: AppContainer,
@@ -11,7 +13,7 @@ export const routes = {
 		{
 			path: '/',
 			component: IndexPage,
-			menuName: 'Home'
+			menuName: 'Portfolio'
 		},{
 			path: '/about',
 			component: AboutPage,

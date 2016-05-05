@@ -7,7 +7,7 @@ var isProduction = (process.argv.indexOf("--production")>-1);
 console.log(process.argv);
 
 gulp.task('build-server', function(){
-	return gulp.src(['server.js', './webpack.config.js'])
+	return gulp.src(['server.js', './webpack.config.dev.js', './webpack.config.prod.js'])
 		.pipe(babel({
 			presets: ['es2015']
 		}))

@@ -19,6 +19,12 @@
 	</head>
 	<body>
 		<div id="app"><%- markup %></div>
+
+		<script>
+			window.menu = JSON.parse(<%- menu -%>);
+
+			console.log(window.menu)
+		</script>
 		<script src="bundle.js"></script>
 	</body>
 </html>

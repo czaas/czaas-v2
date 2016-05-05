@@ -15,13 +15,19 @@ var _contactPage = require('./components/pages/contact-page.js');
 
 var _notFound = require('./components/pages/not-found.js');
 
+var _getPages = require('./wp-api/get-pages.js');
+
+var _getPages2 = _interopRequireDefault(_getPages);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var routes = exports.routes = {
 	path: '',
 	component: _appContainer.AppContainer,
 	childRoutes: [{
 		path: '/',
 		component: _indexPage.IndexPage,
-		menuName: 'Home'
+		menuName: 'Portfolio'
 	}, {
 		path: '/about',
 		component: _aboutPage.AboutPage,

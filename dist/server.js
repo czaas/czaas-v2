@@ -28,16 +28,24 @@ var _webpackHotMiddleware = require('webpack-hot-middleware');
 
 var _webpackHotMiddleware2 = _interopRequireDefault(_webpackHotMiddleware);
 
-var _webpackConfig = require('./webpack.config.js');
+var _webpackConfigDev = require('./webpack.config.dev.js');
 
-var _webpackConfig2 = _interopRequireDefault(_webpackConfig);
+var _webpackConfigDev2 = _interopRequireDefault(_webpackConfigDev);
+
+var _webpackConfigProd = require('./webpack.config.prod.js');
+
+var _webpackConfigProd2 = _interopRequireDefault(_webpackConfigProd);
 
 var _routes = require('./app/routes.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var isProduction = process.env.NODE_ENV === 'production';
+
+var config = isProduction ? _webpackConfigProd2.default : _webpackConfigDev2.default;
+
 var app = (0, _express2.default)();
-var compiler = (0, _webpack2.default)(_webpackConfig2.default);
+var compiler = (0, _webpack2.default)(config);
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/app/views');
@@ -45,6 +53,7 @@ app.set('views', __dirname + '/app/views');
 app.use(_express2.default.static(__dirname + '/dist'));
 app.use((0, _webpackDevMiddleware2.default)(compiler));
 app.use((0, _webpackHotMiddleware2.default)(compiler));
+if (!isProduction) {}
 
 app.get('*', function (req, res) {
 	(0, _reactRouter.match)({ routes: _routes.routes, location: req.url }, function (err, redirectLocation, props) {
@@ -62,4 +71,12 @@ app.get('*', function (req, res) {
 	});
 });
 
-app.listen(3000);
+app.listen(3000, function () {
+	console.log('Listening on port 3000');
+
+	if (isProduction) {
+		console.log('We\'re in production!');
+	} else {
+		console.log('DEV MODE');
+	}
+});

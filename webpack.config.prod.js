@@ -2,7 +2,8 @@ var path = require('path');
 var webpack = require('webpack');
 
 var GLOBALS = {
-  'process.env.NODE_ENV': JSON.stringify('production')
+  'process.env.NODE_ENV': JSON.stringify('production'),
+  __DEV__: false
 };
 
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
     path.join(__dirname, 'app/main.js')
   ],
   output: {
-    path: path.join(__dirname, '/dist/dist'),
+    path: path.join(__dirname, '/dist/app'),
     filename: 'bundle.js',
     publicPath: '/'
   },
