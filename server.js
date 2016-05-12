@@ -57,11 +57,9 @@ app.get('*', (req, res, next) => {
 
 	let allPages; // initialize a variable
 	
-	// async functions that get treated synchronously
-	async.series([
+	// array of functions that need to be called one after the other
+	const seriesArray = [
 		(callback) => {	// callback argument is the next function in the array
-
-			
 
 			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 			//  A Promise returns a gaurentee that it will run a function with the passed in argument
@@ -76,14 +74,18 @@ app.get('*', (req, res, next) => {
 				callback();
 			});
 		},
+
 		() => {
+
+			console.log(JSON.stringify(allPages));
 			res.send(JSON.stringify(allPages));	 // then stringify it and send it to the client
 												 // a JSON quote gets thrown out of whack!
-		}
-	]);
+		},
 
+	];
 
-
+	// Need to get all pages before sending to client
+	async.series(seriesArray);
 
 
 
