@@ -21,9 +21,10 @@
 		<div id="app"><%- markup %></div>
 
 		<script>
-			window.menu = JSON.parse(<%- menu -%>);
-
-			console.log(window.menu)
+			window.reactConfig = {
+				routes: <%- routes %>,
+				apiRoot: <%- apiRoot %>
+			};
 		</script>
 		<script src="bundle.js"></script>
 	</body>

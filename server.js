@@ -11,21 +11,18 @@ import webpackHotMiddlware from 'webpack-hot-middleware';
 import devConfig from './webpack.config.dev.js';
 import prodConfig from './webpack.config.prod.js';
 
-import fetch from 'isomorphic-fetch';
+import async from 'async';
 
+import { apiRoot } from './app/wp-api/wp-const.js';
 import { getMenus } from './app/wp-api/get-menu.js';
 
-let test;
+import { getPage } from './app/wp-api/get-pages.js';
 
-let menu = getMenus().then((body) => {
-	test = body;
-});
+import { buildRoutes } from './app/routes.js';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 const config = (isProduction) ? prodConfig : devConfig;
-
-import { routes } from './app/routes.js';
 
 const app = express();
 const compiler = webpack(config);
@@ -35,24 +32,55 @@ app.set('views', __dirname + '/app/views');
 
 app.use(express.static(__dirname + '/dist'));
 app.use(webpackMiddleware(compiler));
-if (!isProduction) {
-	app.use(webpackHotMiddlware(compiler));
-}
+app.use(webpackHotMiddlware(compiler));
 
-app.get('*', (req, res) => {
-	match({ routes, location: req.url }, (err, redirectLocation, props) => {
-		if (err) {
-			res.status(500).send(err.message);
-		} else if (redirectLocation) {
-			res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-		} else if (props) {
-			const markup = renderToString(<RouterContext {...props} />);
+app.use((req, res, next) => {
+	let fullRequest = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+	let allPages;
+	
+	// async.series([
+	// 	(callback) => {
+	// 		let getPage(req.originalUrl).then((body) => {
+	// 			allPages = JSON.parse(body);
+	// 			callback();
+	// 		});
+	// 	},
+	// 	() => {
+	// 		res.send(JSON.Stringify(allPages));
+	// 	}
+	// ]);
+	
+	next();
+});
 
-			res.render('index', { markup, menu: test });
-		} else {
-			res.sendStatus(404);
+app.get('*', (req, res, next) => {
+
+	let allPages;
+	
+	async.series([
+		(callback) => {
+			getPage(req.originalUrl).then((body) => {
+				allPages = JSON.parse(body);
+				callback();
+			});
+		},
+		() => {
+			res.send(JSON.stringify(allPages));
 		}
-	});
+	]);
+	// match({ configureRoutes, location: req.url }, (err, redirectLocation, props) => {
+	// 	if (err) {
+	// 		res.status(500).send(err.message);
+	// 	} else if (redirectLocation) {
+	// 		res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+	// 	} else if (props) {
+	// 		const markup = renderToString(<RouterContext {...props} />);
+
+	// 		res.render('index', { markup, routes: JSON.stringify(routes), apiRoot: JSON.stringify(apiRoot) });
+	// 	} else {
+	// 		res.sendStatus(404);
+	// 	}
+	// });
 });
 
 app.listen(3000, () => {
@@ -64,3 +92,10 @@ app.listen(3000, () => {
 		console.log('DEV MODE');
 	}
 });
+
+function configureRoutes() {
+	return getMenus().then((body) => {
+		let routes = buildRoutes(JSON.parse(body));
+		return routes;
+	});
+}

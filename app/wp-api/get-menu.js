@@ -10,7 +10,7 @@ export function getMenus (){
 			if (!err && response.statusText === 'OK') {
 				reject(err); return;
 			} else {
-				resolve(body);
+				resolve(body); return;
 			}
 		});
 	});

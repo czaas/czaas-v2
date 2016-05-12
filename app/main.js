@@ -1,12 +1,14 @@
+/*
+This component is only used by the client
+*/
+
 import React from 'react';
 import ReactDom from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 
-import { routes } from './routes.js';
+let config = window.reactConfig;
 
-console.log(window.menu);
-
-ReactDom.render(
-	<Router routes={routes} history={browserHistory} />,
+ReactDom.render( 
+	<Router routes={config.routes} history={browserHistory} />,
 	document.getElementById('app')
 );

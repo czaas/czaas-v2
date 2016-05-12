@@ -36,9 +36,19 @@ var _webpackConfigProd = require('./webpack.config.prod.js');
 
 var _webpackConfigProd2 = _interopRequireDefault(_webpackConfigProd);
 
+var _wpConst = require('./app/wp-api/wp-const.js');
+
+var _getMenu = require('./app/wp-api/get-menu.js');
+
 var _routes = require('./app/routes.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var wpMenu = void 0;
+var menu = (0, _getMenu.getMenus)().then(function (body) {
+	var initialJSON = JSON.parse(body);
+	wpMenu = JSON.stringify(initialJSON);
+});
 
 var isProduction = process.env.NODE_ENV === 'production';
 
@@ -52,8 +62,9 @@ app.set('views', __dirname + '/app/views');
 
 app.use(_express2.default.static(__dirname + '/dist'));
 app.use((0, _webpackDevMiddleware2.default)(compiler));
-app.use((0, _webpackHotMiddleware2.default)(compiler));
-if (!isProduction) {}
+if (!isProduction) {
+	app.use((0, _webpackHotMiddleware2.default)(compiler));
+}
 
 app.get('*', function (req, res) {
 	(0, _reactRouter.match)({ routes: _routes.routes, location: req.url }, function (err, redirectLocation, props) {
@@ -64,7 +75,7 @@ app.get('*', function (req, res) {
 		} else if (props) {
 			var markup = (0, _server.renderToString)(_react2.default.createElement(_reactRouter.RouterContext, props));
 
-			res.render('index', { markup: markup });
+			res.render('index', { markup: markup, menu: wpMenu, apiRoot: JSON.stringify(_wpConst.apiRoot) });
 		} else {
 			res.sendStatus(404);
 		}

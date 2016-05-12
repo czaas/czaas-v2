@@ -1,9 +1,34 @@
 import fetch from 'whatwg-fetch';
+import request from 'request';
 
-const apiRoot = 'http://localhost:8888/wordpress/wp-json/wp/v2';
+import { apiUrl } from './wp-const.js';
 
 export default function getPages(){
-	fetch(`${apiRoot}/pages`).then((res) => {
-		return res;
+	let pageRequest = new Promise((resolve, reject) => {
+		request(`${apiUrl}/pages`, (err, response, body) => {
+			if (!err && response.statusText === 'OK') {
+				reject(err); return;
+			} else {
+				resolve(body); return;
+			}
+		});
 	});
+
+	pageRequest.then((res) => {
+		console.log(JSON.parse(res));
+	});
+}
+
+export function getPage(url) {
+	let pageRequest = new Promise((resolve, reject) => {
+		request(`${apiUrl}/pages`, (err, response, body) => {
+			if (!err && response.statusText === 'OK') {
+				reject(err); return;
+			} else {
+				resolve(body); return;
+			}
+		});
+	});
+
+	return pageRequest;
 }
