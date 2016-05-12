@@ -16,7 +16,7 @@ import async from 'async';
 import { apiRoot } from './app/wp-api/wp-const.js';
 import { getMenus } from './app/wp-api/get-menu.js';
 
-import { getPage } from './app/wp-api/get-pages.js';
+import { getAllPages } from './app/wp-api/get-pages.js';
 
 import { buildRoutes } from './app/routes.js';
 
@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 	
 	// async.series([
 	// 	(callback) => {
-	// 		let getPage(req.originalUrl).then((body) => {
+	// 		let getAllPages(req.originalUrl).then((body) => {
 	// 			allPages = JSON.parse(body);
 	// 			callback();
 	// 		});
@@ -55,19 +55,44 @@ app.use((req, res, next) => {
 
 app.get('*', (req, res, next) => {
 
-	let allPages;
+	let allPages; // initialize a variable
 	
+	// async functions that get treated synchronously
 	async.series([
-		(callback) => {
-			getPage(req.originalUrl).then((body) => {
-				allPages = JSON.parse(body);
+		(callback) => {	// callback argument is the next function in the array
+
+			
+
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+			//  A Promise returns a gaurentee that it will run a function with the passed in argument
+
+			// In my case, 
+			// I want everything from the API that this function is calling
+			// I then want to call this function and handle the data as the argument
+			getAllPages(req.originalUrl).then((body) => {
+
+				allPages = JSON.parse(body);	// # JSON parsing
+												// If you don't parse the response JSON object
 				callback();
 			});
 		},
 		() => {
-			res.send(JSON.stringify(allPages));
+			res.send(JSON.stringify(allPages));	 // then stringify it and send it to the client
+												 // a JSON quote gets thrown out of whack!
 		}
 	]);
+
+
+
+
+
+
+
+
+
+
+
+
 	// match({ configureRoutes, location: req.url }, (err, redirectLocation, props) => {
 	// 	if (err) {
 	// 		res.status(500).send(err.message);

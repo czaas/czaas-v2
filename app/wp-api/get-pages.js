@@ -19,16 +19,31 @@ export default function getPages(){
 	});
 }
 
-export function getPage(url) {
+export function getAllPages(url) {
+
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+	// lets us say "go get this"
 	let pageRequest = new Promise((resolve, reject) => {
+
 		request(`${apiUrl}/pages`, (err, response, body) => {
+
+			// If we don't have an error AND the response is OK
 			if (!err && response.statusText === 'OK') {
-				reject(err); return;
+
+				reject(err); return; 
 			} else {
 				resolve(body); return;
 			}
 		});
 	});
 
-	return pageRequest;
+	return pageRequest; 
+
+	// // Example of how you would handle this in server.js
+	// 
+	//	getAllPages.then((JSON_response) => {
+	//		let object = JSON.parse(JSON_response);
+	//	
+	//		server_send_to_client(JSON.stringify(JSON_response_body));
+	//	});
 }
