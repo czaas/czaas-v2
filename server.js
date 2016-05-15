@@ -65,7 +65,7 @@ app.get('*', (req, res, next) => {
 
 			getMenus().then((body) => {
 
-				routes = Object.assign({}, buildRoutes(JSON.parse(body)));
+				routes = Object.assign({}, buildRoutes(JSON.parse(body), allPages));
 
 				cb();
 			});

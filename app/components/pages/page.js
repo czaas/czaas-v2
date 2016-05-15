@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export class Page extends Component {
 	constructor(props) {
 		super(props);
-		console.log(props);
+		// console.log(props);
 	}
 	render() {
 		return (

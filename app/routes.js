@@ -8,13 +8,13 @@ import { Page } from './components/pages/page.js';
 
 import { apiRoot } from './wp-api/wp-const.js';
 
-export function buildRoutes (wpRoutes) {
+export function buildRoutes (wpRoutes, wpContent) {
 
 	/*
 		TODO:
 			- I need to pass content down with the routes and match them to the correct url before sending to client
 	*/
-
+	let contentAndSlug = [];
 
 	let intialRoute = {
 			path: '',
@@ -22,13 +22,35 @@ export function buildRoutes (wpRoutes) {
 			childRoutes: []
 	};
 
+	wpContent.map(getContentAndSlug);
+
+	function getContentAndSlug(wpPage) {
+		let myContent = {
+			content: wpPage.content.rendered,
+			slug: wpPage.link.replace(apiRoot, '')
+		};
+		contentAndSlug.push(myContent);
+	}
+
+	function findContent(pageUrl) {
+		let pageContent = '';
+		contentAndSlug.forEach((page) => {
+			if (page.slug === pageUrl) {
+				pageContent = page.content;
+			}
+		});
+
+		return pageContent;
+	}
+
 	function childRoutes(menuItem){
-		
+		let pageUrl = menuItem.url.replace(apiRoot, '');
+
 		intialRoute.childRoutes.push({
-			path: menuItem.url.replace(apiRoot, ''),
+			path: pageUrl,
 			component: Page,
 			menuName: menuItem.title,
-			children: menuItem.title
+			children: findContent(pageUrl)
 		});
 		return;
 	}
