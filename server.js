@@ -13,11 +13,14 @@ import prodConfig from './webpack.config.prod.js';
 
 import async from 'async';
 
+// Importing constants
 import { apiRoot } from './app/wp-api/wp-const.js';
-import { getMenus } from './app/wp-api/get-menu.js';
 
+// importing api requests
+import { getMenus } from './app/wp-api/get-menu.js';
 import { getAllPages } from './app/wp-api/get-pages.js';
 
+// helper tools to build
 import { buildRoutes } from './app/routes.js';
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -38,24 +41,14 @@ app.use((req, res, next) => {
 	let fullRequest = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
 	let allPages;
 	
-	// async.series([
-	// 	(callback) => {
-	// 		let getAllPages(req.originalUrl).then((body) => {
-	// 			allPages = JSON.parse(body);
-	// 			callback();
-	// 		});
-	// 	},
-	// 	() => {
-	// 		res.send(JSON.Stringify(allPages));
-	// 	}
-	// ]);
-	
 	next();
 });
 
 app.get('*', (req, res, next) => {
 
-	let allPages; // initialize a variable
+	// initialize variables
+	let allPages; 
+	let menus;
 	
 	// array of functions that need to be called one after the other
 	const seriesArray = [
@@ -75,10 +68,17 @@ app.get('*', (req, res, next) => {
 			});
 		},
 
-		() => {
+		(cb) => {
 
-			console.log(JSON.stringify(allPages));
-			res.send(JSON.stringify(allPages));	 // then stringify it and send it to the client
+			getMenus().then((body) => {
+				menus = buildRoutes(JSON.parse(body));
+
+				cb();
+			});
+		},
+
+		() => {
+			res.send(JSON.stringify(menus));	 // then stringify it and send it to the client
 												 // a JSON quote gets thrown out of whack!
 		},
 
@@ -119,10 +119,3 @@ app.listen(3000, () => {
 		console.log('DEV MODE');
 	}
 });
-
-function configureRoutes() {
-	return getMenus().then((body) => {
-		let routes = buildRoutes(JSON.parse(body));
-		return routes;
-	});
-}

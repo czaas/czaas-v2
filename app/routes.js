@@ -8,6 +8,8 @@ import { Page } from './components/pages/page.js';
 
 import getPages from './wp-api/get-pages.js';
 
+import { apiRoot } from './wp-api/wp-const.js';
+
 let intialRoute = {
 		path: '',
 		component: AppContainer,
@@ -15,17 +17,16 @@ let intialRoute = {
 };
 
 export function buildRoutes (wpRoutes) {
-	let routes = {};
 
 	function childRoutes(menuItem){
-		var rootUrl = wpRoutes.apiRoot;
 		
 		intialRoute.childRoutes.push({
-			path: menuItem.url.replace(rootUrl, ''),
+			path: menuItem.url.replace(apiRoot, ''),
 			component: Page,
 			menuName: menuItem.title,
 			children: '<p>Text test</p>'
 		});
+		return;
 	}
 
 	let notFoundRoute = {
@@ -33,11 +34,11 @@ export function buildRoutes (wpRoutes) {
 		component: NotFound
 	};
 
-	wpRoutes.items.forEach(childRoutes);
+	wpRoutes.items.map(childRoutes);
 
 	intialRoute.childRoutes.push(notFoundRoute);
 
-	routes.assign({}, intialRoute);
-
+	let routes = Object.assign({}, intialRoute);
+	
 	return routes;
 }
