@@ -15,16 +15,16 @@
 		    var s = document.getElementsByTagName('script')[0];
 		    s.parentNode.insertBefore(wf, s);
 		  })(); </script>
-		<link rel="stylesheet" href="main.css">
+		<link rel="stylesheet" href="/dist/main.css">
 	</head>
 	<body>
 		<div id="app"><%- markup %></div>
-
 		<script>
-			window.menu = JSON.parse(<%- menu -%>);
-
-			console.log(window.menu)
+			window.reactConfig = {
+				routes: <%- routes %>,
+				apiRoot: <%- apiRoot %>
+			};
 		</script>
-		<script src="bundle.js"></script>
+		<script src="/bundle.js"></script>
 	</body>
 </html>

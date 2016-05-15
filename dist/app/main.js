@@ -14,4 +14,10 @@ var _routes = require('./routes.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_reactDom2.default.render(_react2.default.createElement(_reactRouter.Router, { routes: _routes.routes, history: _reactRouter.browserHistory }), document.getElementById('app'));
+var config = window.reactConfig;
+
+var finalRoutes = (0, _routes.buildRoutes)(config);
+
+console.log(finalRoutes);
+
+_reactDom2.default.render(_react2.default.createElement(_reactRouter.Router, { routes: finalRoutes, history: _reactRouter.browserHistory }), document.getElementById('app'));

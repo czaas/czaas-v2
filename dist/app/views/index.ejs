@@ -19,6 +19,13 @@
 	</head>
 	<body>
 		<div id="app"><%- markup %></div>
+
+		<script>
+			window.reactConfig = {
+				menu: <%- menu %>,
+				apiRoot: <%- apiRoot %>
+			};
+		</script>
 		<script src="bundle.js"></script>
 	</body>
 </html>
