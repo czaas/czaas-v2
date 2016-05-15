@@ -6,17 +6,15 @@ import { NotFound } from './components/pages/not-found.js';
 
 import { Page } from './components/pages/page.js';
 
-import getPages from './wp-api/get-pages.js';
-
 import { apiRoot } from './wp-api/wp-const.js';
 
-let intialRoute = {
-		path: '',
-		component: AppContainer,
-		childRoutes: []
-};
-
 export function buildRoutes (wpRoutes) {
+
+	let intialRoute = {
+			path: '',
+			component: AppContainer,
+			childRoutes: []
+	};
 
 	function childRoutes(menuItem){
 		
@@ -24,7 +22,7 @@ export function buildRoutes (wpRoutes) {
 			path: menuItem.url.replace(apiRoot, ''),
 			component: Page,
 			menuName: menuItem.title,
-			children: '<p>Text test</p>'
+			children: menuItem.title
 		});
 		return;
 	}
@@ -39,6 +37,19 @@ export function buildRoutes (wpRoutes) {
 	intialRoute.childRoutes.push(notFoundRoute);
 
 	let routes = Object.assign({}, intialRoute);
-	
+
+	return routes;
+}
+
+export function configRoutesForClient (routes) {
+	// Configure parent component then configure child route components
+
+	routes.component = AppContainer;
+	routes.childRoutes.map(addPageComponent);
+
+	function addPageComponent(childRoute) {
+		childRoute.component = Page;
+	}
+
 	return routes;
 }

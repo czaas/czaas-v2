@@ -37,18 +37,11 @@ app.use(express.static(__dirname + '/dist'));
 app.use(webpackMiddleware(compiler));
 app.use(webpackHotMiddlware(compiler));
 
-app.use((req, res, next) => {
-	let fullRequest = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-	let allPages;
-	
-	next();
-});
-
 app.get('*', (req, res, next) => {
 
 	// initialize variables
 	let allPages; 
-	let menus;
+	let routes;
 	
 	// array of functions that need to be called one after the other
 	const seriesArray = [
@@ -61,7 +54,7 @@ app.get('*', (req, res, next) => {
 			// I want everything from the API that this function is calling
 			// I then want to call this function and handle the data as the argument
 			getAllPages(req.originalUrl).then((body) => {
-
+				allPages = '';
 				allPages = JSON.parse(body);	// # JSON parsing
 												// If you don't parse the response JSON object
 				callback();
@@ -71,43 +64,36 @@ app.get('*', (req, res, next) => {
 		(cb) => {
 
 			getMenus().then((body) => {
-				menus = buildRoutes(JSON.parse(body));
+
+				routes = Object.assign({}, buildRoutes(JSON.parse(body)));
 
 				cb();
 			});
 		},
 
 		() => {
-			res.send(JSON.stringify(menus));	 // then stringify it and send it to the client
+			// res.send(JSON.stringify(menus));	 // then stringify it and send it to the client
 												 // a JSON quote gets thrown out of whack!
+
+			match({ routes, location: req.url }, (err, redirectLocation, props) => {
+				console.log(props);
+				if (err) {
+					res.status(500).send(err.message);
+				} else if (redirectLocation) {
+					res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+				} else if (props) {
+					const markup = renderToString(<RouterContext {...props} />);
+					res.render('index', { markup, routes: JSON.stringify(routes), apiRoot: JSON.stringify(apiRoot) });
+				} else {
+					res.sendStatus(404);
+				}
+			});
 		},
 
 	];
 
 	// Need to get all pages before sending to client
 	async.series(seriesArray);
-
-
-
-
-
-
-
-
-
-	// match({ configureRoutes, location: req.url }, (err, redirectLocation, props) => {
-	// 	if (err) {
-	// 		res.status(500).send(err.message);
-	// 	} else if (redirectLocation) {
-	// 		res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-	// 	} else if (props) {
-	// 		const markup = renderToString(<RouterContext {...props} />);
-
-	// 		res.render('index', { markup, routes: JSON.stringify(routes), apiRoot: JSON.stringify(apiRoot) });
-	// 	} else {
-	// 		res.sendStatus(404);
-	// 	}
-	// });
 });
 
 app.listen(3000, () => {
