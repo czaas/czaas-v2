@@ -10,6 +10,12 @@ import { apiRoot } from './wp-api/wp-const.js';
 
 export function buildRoutes (wpRoutes) {
 
+	/*
+		TODO:
+			- I need to pass content down with the routes and match them to the correct url before sending to client
+	*/
+
+
 	let intialRoute = {
 			path: '',
 			component: AppContainer,

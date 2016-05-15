@@ -76,7 +76,6 @@ app.get('*', (req, res, next) => {
 												 // a JSON quote gets thrown out of whack!
 
 			match({ routes, location: req.url }, (err, redirectLocation, props) => {
-				console.log(props);
 				if (err) {
 					res.status(500).send(err.message);
 				} else if (redirectLocation) {
