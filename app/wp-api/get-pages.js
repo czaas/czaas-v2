@@ -15,7 +15,7 @@ export default function getPages(){
 	});
 
 	pageRequest.then((res) => {
-		console.log(JSON.parse(res));
+		// console.log(JSON.parse(res));
 	});
 }
 

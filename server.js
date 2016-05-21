@@ -54,7 +54,6 @@ app.get('*', (req, res, next) => {
 			// I want everything from the API that this function is calling
 			// I then want to call this function and handle the data as the argument
 			getAllPages(req.originalUrl).then((body) => {
-				allPages = '';
 				allPages = JSON.parse(body);	// # JSON parsing
 												// If you don't parse the response JSON object
 				callback();
@@ -64,7 +63,6 @@ app.get('*', (req, res, next) => {
 		(cb) => {
 
 			getMenus().then((body) => {
-
 				routes = Object.assign({}, buildRoutes(JSON.parse(body), allPages));
 
 				cb();

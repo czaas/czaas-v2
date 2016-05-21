@@ -29,6 +29,7 @@ export function buildRoutes (wpRoutes, wpContent) {
 			content: wpPage.content.rendered,
 			slug: wpPage.link.replace(apiRoot, '')
 		};
+
 		contentAndSlug.push(myContent);
 	}
 
