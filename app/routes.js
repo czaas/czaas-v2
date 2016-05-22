@@ -1,6 +1,7 @@
 import { AppContainer } from './components/container/app-container.js';
 import { NotFound } from './components/pages/not-found.js';
 import { Page } from './components/pages/page.js';
+import { Feed } from './components/pages/feed.js';
 
 import { apiRoot } from './wp-api/wp-const.js';
 
@@ -21,6 +22,7 @@ export function buildRoutes (wpRoutes, wpContent) {
 	wpContent.map(getContentAndSlug);
 
 	function getContentAndSlug(wpPage) {
+		// getting content and slug objects
 		let myContent = {
 			content: wpPage.content.rendered,
 			slug: wpPage.link.replace(apiRoot, '')
@@ -30,6 +32,7 @@ export function buildRoutes (wpRoutes, wpContent) {
 	}
 
 	function findContent(pageUrl) {
+		// when routes are built, assign the content to the route
 		let pageContent = '';
 		contentAndSlug.forEach((page) => {
 			if (page.slug === pageUrl) {
@@ -43,18 +46,28 @@ export function buildRoutes (wpRoutes, wpContent) {
 	function childRoutes(menuItem){
 		let pageUrl = menuItem.url.replace(apiRoot, '');
 
-		intialRoute.childRoutes.push({
+		function capitalizeFirstLetter(string) {
+			string.toLowerCase();
+			return string.charAt(0).toUpperCase() + string.slice(1);
+		}
+		let componentType = capitalizeFirstLetter(menuItem.attr);
+		
+		let newRoute = {
 			path: pageUrl,
-			component: Page,
+			type: `${componentType}`,
 			menuName: menuItem.title,
 			children: findContent(pageUrl)
-		});
+		};
+		addComponentToRoute(newRoute);
+
+		intialRoute.childRoutes.push(newRoute);
 		return;
 	}
 
 	let notFoundRoute = {
 		path: '*',
-		component: NotFound
+		component: NotFound,
+		type: 'NotFound'
 	};
 
 	wpRoutes.items.map(childRoutes);
@@ -70,15 +83,23 @@ export function configRoutesForClient (routes) {
 	// Configure parent component then configure child route components
 
 	routes.component = AppContainer;
-	routes.childRoutes.map(addPageComponent);
-
-	function addPageComponent(childRoute) {
-		if(childRoute.path === '*') {
-			childRoute.component = NotFound;
-		} else {
-			childRoute.component = Page;
-		}
-	}
+	routes.childRoutes.map(addComponentToRoute);
 
 	return routes;
+}
+
+export function addComponentToRoute(childRoute) {
+	switch(childRoute.type) {
+		case 'NotFound':
+			childRoute.component = NotFound;
+			break;
+		case 'Page':
+			childRoute.component = Page;
+			break;
+		case 'Feed':
+			childRoute.component = Feed;
+		default:
+			return;
+	}
+	return childRoute;
 }
