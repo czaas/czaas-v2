@@ -1,9 +1,5 @@
 import { AppContainer } from './components/container/app-container.js';
-import { IndexPage } from './components/pages/index-page.js';
-import { AboutPage } from './components/pages/about-page.js';
-import { ContactPage } from './components/pages/contact-page.js';
 import { NotFound } from './components/pages/not-found.js';
-
 import { Page } from './components/pages/page.js';
 
 import { apiRoot } from './wp-api/wp-const.js';
@@ -77,7 +73,11 @@ export function configRoutesForClient (routes) {
 	routes.childRoutes.map(addPageComponent);
 
 	function addPageComponent(childRoute) {
-		childRoute.component = Page;
+		if(childRoute.path === '*') {
+			childRoute.component = NotFound;
+		} else {
+			childRoute.component = Page;
+		}
 	}
 
 	return routes;
