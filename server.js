@@ -80,6 +80,7 @@ app.get('*', (req, res, next) => {
 					res.redirect(302, redirectLocation.pathname + redirectLocation.search);
 				} else if (props) {
 					const markup = renderToString(<RouterContext {...props} />);
+
 					res.render('index', { markup, routes: JSON.stringify(routes), apiRoot: JSON.stringify(apiRoot) });
 				} else {
 					res.sendStatus(404);
